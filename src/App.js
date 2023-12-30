@@ -24,14 +24,14 @@ function App() {
           <Route path="/commisary" element={<Commisary />} />
           <Route path="/stores" element={<Store />} />
           <Route path="/stores/createorder" element={<CreateOrder />} />
-          <Route path="/stores/createstoreguide" element={<CreateStoreGuide />} />
-          <Route path="/stores/createorder" element={<CreateOrder />} />
-          <Route path="/stores/updateorder" element={<UpdateOrder />} />
-          <Route path="/stores/viewallguide" element={<ViewAllGuide />} />
-          <Route path="/stores/viewallstoreguide" element={<ViewAllStoreGuide />} />
-          <Route path="/stores/viewoneguide" element={<ViewOneGuide />} />
-          <Route path="/stores/viewoneorder" element={<ViewOneOrder />} />
           <Route path="/stores/vieworders" element={<ViewOrders />} />
+          <Route path="/stores/updateorder" element={<UpdateOrder />} />
+          <Route path="/stores/viewoneorder" element={<ViewOneOrder />} />
+          <Route path="/stores/viewallguide" element={<ViewAllGuide />} />
+          <Route path="/stores/viewoneguide" element={<ViewOneGuide />} />
+          
+          <Route path="/stores/createstoreguide" element={<CreateStoreGuide />} />
+          <Route path="/stores/viewallstoreguide" element={<ViewAllStoreGuide />} />
 
 
 

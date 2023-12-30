@@ -2,6 +2,7 @@
 // Main page fore CreateStoreGuides
 
 import React from 'react';
+import StoreNavbar from './StoreNavication/storenavi';
 
 
 function CreateStoreGuide(){
@@ -13,6 +14,8 @@ function CreateStoreGuide(){
 
 
     return(<>
+        <StoreNavbar/>
+
     <p>Hello CreateStoreGuide</p>
     </>)
 }

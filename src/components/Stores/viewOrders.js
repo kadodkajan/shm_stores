@@ -2,6 +2,7 @@
 // Main page fore ViewOrderss
 
 import React from 'react';
+import StoreNavbar from './StoreNavication/storenavi';
 
 
 function ViewOrders(){
@@ -13,6 +14,8 @@ function ViewOrders(){
 
 
     return(<>
+        <StoreNavbar/>
+
     <p>Hello ViewOrders</p>
     </>)
 }

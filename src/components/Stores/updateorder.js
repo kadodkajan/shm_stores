@@ -2,6 +2,7 @@
 // Main page fore UpdateOrders
 
 import React from 'react';
+import StoreNavbar from './StoreNavication/storenavi';
 
 
 function UpdateOrder(){
@@ -13,6 +14,8 @@ function UpdateOrder(){
 
 
     return(<>
+        <StoreNavbar/>
+
     <p>Hello UpdateOrder</p>
     </>)
 }

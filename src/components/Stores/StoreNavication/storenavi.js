@@ -1,49 +1,84 @@
-import React from 'react';
-import Button from 'react-bootstrap/Button';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import Offcanvas from 'react-bootstrap/Offcanvas';
+import React, { useState, useEffect  } from "react";
+import { useNavigate } from "react-router-dom";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import Offcanvas from "react-bootstrap/Offcanvas";
+import Cookies from "js-cookie";
 
 function StoreNavbar() {
+  const [userData, setUserData] = useState(null); // State to store user data
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // Function to retrieve user data from the cookie
+    const getUserDataFromCookie = () => {
+      const userCookie = Cookies.get("user");
+      console.log(userCookie)
+
+      if (userCookie) {
+        const userDataFromCookie = JSON.parse(userCookie);
+        setUserData(userDataFromCookie);
+      } else {
+        // Cookie not found, handle accordingly
+        navigate("/"); // Redirect to login page or handle as needed
+      }
+    };
+    getUserDataFromCookie();
+  }, [navigate]);
+
   return (
-    <Navbar expand="sm" autoCollapse className="bg-body-tertiary mb-7 " id='cstom-nav'>
+    
+    <Navbar
+      expand="lg"
+      collapseOnSelect
+      className="bg-body-tertiary"
+      data-bs-theme="dark"
+    >
       <Container fluid>
-        <Navbar.Brand href="#">Navbar Offcanvas</Navbar.Brand>
+      <div>
+          <Navbar.Brand href="#">{userData?.user_location}</Navbar.Brand>
+          <br />
+          <Navbar.Brand href="#">{userData?.user_name}</Navbar.Brand>
+        </div>
+
         <Navbar.Toggle aria-controls="offcanvasNavbar-expand" />
         <Navbar.Offcanvas
           id="offcanvasNavbar-expand"
-          aria-labelledby="offcanvasNavbarLabel-expand"
-          placement="end"className="custom-offcanvas"
+          aria-labelledby="offcanvasNavbarLabel-expand sm "
+          placement="end"
+          className="custom-offcanvas"
+          data-bs-theme="dark"
         >
           <Offcanvas.Header closeButton>
             <Offcanvas.Title id="offcanvasNavbarLabel-expand">
               Menu
             </Offcanvas.Title>
           </Offcanvas.Header>
-          <Offcanvas.Body className='custom-offcanvas-body'>
-            <Nav className="justify-content-left flex-grow-9 pe-8 "id='custom-nav' >
-              <Nav.Link href="#action1">Home</Nav.Link>
-              <Nav.Link href="#action2">Link</Nav.Link>
-              <NavDropdown
-                title="Dropdown"
-                id="offcanvasNavbarDropdown-expand"
-                
-              >
-               
-                <NavDropdown.Item href="#action3">Action</NavDropdown.Item>
-                <NavDropdown.Item href="#action4">
-                  Another action
+          <Offcanvas.Body className="custom-offcanvas-body ">
+            <Nav className="justify-content-flex-start pe-1 " id="cstom-nav">
+              <Nav.Link href="/stores">Home</Nav.Link>
+              <NavDropdown title="Orders" id="offcanvasNavbarDropdown-expand">
+                <NavDropdown.Item href="/stores/createorder">
+                  Create Order
                 </NavDropdown.Item>
-                <NavDropdown.Divider />
-                <NavDropdown.Item href="#action5">
-                  Something else here
+                <NavDropdown.Item href="/stores/vieworders">
+                  View Orders
                 </NavDropdown.Item>
               </NavDropdown>
+              <Nav.Link href="/stores/viewallguide">Order Guides</Nav.Link>
+              <NavDropdown title="Store Guides" id="offcanvasNavbarDropdown-expand">
+                <NavDropdown.Item href="/stores/createstoreguide">
+                  Create Store Guide
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/stores/viewallstoreguide">
+                  View Store Guides
+                </NavDropdown.Item>
+              </NavDropdown>
+
+
             </Nav>
-           
           </Offcanvas.Body>
         </Navbar.Offcanvas>
       </Container>

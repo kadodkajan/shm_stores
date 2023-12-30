@@ -1,6 +1,7 @@
 // src/components/Login.js
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const [user_id, setUserid] = useState("");
@@ -25,8 +26,8 @@ const Login = () => {
 
       if (response.ok) {
         if (data.status === "success") {
-          alert("Login successful!");
-          console.log(data.user);
+          Cookies.set("user", JSON.stringify(data.user));
+
 
           if (data.user.user_location ==="Railside"){
 

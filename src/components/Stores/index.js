@@ -3,7 +3,6 @@
 
 import React from 'react';
 import StoreNavbar from './StoreNavication/storenavi';
-import OffcanvasExample from './temp';
 function Store(){
 
 

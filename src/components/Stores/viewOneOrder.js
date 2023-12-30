@@ -2,6 +2,7 @@
 // Main page fore ViewOneOrders
 
 import React from 'react';
+import StoreNavbar from './StoreNavication/storenavi';
 
 
 function ViewOneOrder(){
@@ -13,6 +14,8 @@ function ViewOneOrder(){
 
 
     return(<>
+        <StoreNavbar/>
+
     <p>Hello ViewOneOrder</p>
     </>)
 }
