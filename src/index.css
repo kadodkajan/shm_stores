@@ -11,3 +11,17 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.custom-offcanvas {
+  background-color:#A9A9A9 !important;
+  max-width: 200px !important; /* Adjust the value as needed */
+
+}
+.custom-offcanvas-body {
+ background-color:rgba(255,255,255,0.1);
+ color: white !important;
+}
+#custom-nav{
+  background-color:red !important;
+  padding-right: 80px !important;
+  color: aliceblue !important;
+}

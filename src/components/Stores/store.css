@@ -1,0 +1,19 @@
+
+/* styles.css or styles.scss */
+.custom-dropdown {
+    background-color: lightblue;
+    color: darkblue;
+  }
+  .nav-bar {
+      padding-left: 10px;
+      background-color: #435585;
+    }  
+    .navtext{
+      color: white;
+
+  }
+  .custom-offcanvas-body {
+    background-color: #435585 !important;
+    min-width: 50px !important; /* Adjust the value as needed */
+  }
+  
