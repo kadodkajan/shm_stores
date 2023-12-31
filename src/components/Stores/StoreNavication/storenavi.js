@@ -15,7 +15,6 @@ function StoreNavbar() {
     // Function to retrieve user data from the cookie
     const getUserDataFromCookie = () => {
       const userCookie = Cookies.get("user");
-      console.log(userCookie)
 
       if (userCookie) {
         const userDataFromCookie = JSON.parse(userCookie);
@@ -27,7 +26,12 @@ function StoreNavbar() {
     };
     getUserDataFromCookie();
   }, [navigate]);
-
+  const handleLogout = () => {
+    // Clear the user cookie
+    Cookies.remove("user");
+    // Redirect to the login page
+    navigate("/");
+  };
   return (
     
     <Navbar
@@ -76,6 +80,7 @@ function StoreNavbar() {
                   View Store Guides
                 </NavDropdown.Item>
               </NavDropdown>
+              <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
 
 
             </Nav>
