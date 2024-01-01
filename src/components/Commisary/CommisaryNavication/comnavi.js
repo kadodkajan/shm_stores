@@ -63,9 +63,11 @@ function ComNavbar() {
           <Offcanvas.Body className="custom-offcanvas-body ">
             <Nav className="justify-content-flex-start pe-1 " id="cstom-nav">
               <Nav.Link href="/commisary">Home</Nav.Link>
-              <NavDropdown title="Order Guides" id="offcanvasNavbarDropdown-expand">
-                <NavDropdown.Item href="/stores/createstoreguide">
-                  Create Order Guide
+              <Nav.Link href="/commisary/comteam">Team</Nav.Link>
+
+              <NavDropdown title="Products" id="offcanvasNavbarDropdown-expand">
+                <NavDropdown.Item href="/commisary/procategory">
+                  Product Category
                 </NavDropdown.Item>
                 <NavDropdown.Item href="/stores/viewallstoreguide">
                   View Order Guides
