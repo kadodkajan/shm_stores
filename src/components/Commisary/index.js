@@ -1,5 +1,5 @@
 import React from 'react';
-
+import ComNavbar from './CommisaryNavication/comnavi';
 
 function Commisary(){
 
@@ -10,6 +10,7 @@ function Commisary(){
 
 
     return(<>
+    <ComNavbar/>
     <p>Hello Commisary</p>
     </>)
 }
