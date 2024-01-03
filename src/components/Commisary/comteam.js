@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import ComNavbar from './CommisaryNavication/comnavi';
+import { Container, Form, Button, Table,Row ,Col} from 'react-bootstrap';
 
 function ComTeam() {
   const [teamName, setTeamName] = useState('');
@@ -84,22 +85,35 @@ function ComTeam() {
   return (
     <>
       <ComNavbar />
-      <div>
-        <br />
-        <form onSubmit={handleSubmit}>
-          <label>
-            Team Name:
-            <input type="text" value={teamName} onChange={handleInputChange} />
-          </label>
-          <button type="submit">Add Team</button>
-        </form>
+      <Container className="mt-5">
+        <Form onSubmit={handleSubmit}>
+        <Row>
+        <Col sm={5} >
+          <Form.Group controlId="teamName">
+         
 
-        <h2>Teams:</h2>
-        <table>
+            <Form.Label>Team Name:</Form.Label>
+            <Form.Control type="text" value={teamName} onChange={handleInputChange} />
+          
+          </Form.Group> 
+          </Col>
+
+          </Row>
+
+          <br/>
+          <Button variant="success" type="submit">
+            Add Team
+          </Button>
+        </Form>
+
+        <h2 className="mt-4">Teams</h2>
+        <br/>
+        <Table   hover style={{ width: '350px' }}>
           <thead>
             <tr>
               <th>Team Name</th>
-              <th>Delete</th>
+              
+              <th >Remove</th>
             </tr>
           </thead>
           <tbody>
@@ -107,13 +121,15 @@ function ComTeam() {
               <tr key={team._id}>
                 <td>{team.teamName}</td>
                 <td>
-                  <button onClick={() => handleDelete(team._id)}>Delete</button>
+                  <Button variant="danger" onClick={() => handleDelete(team._id)}>
+                    Remove
+                  </Button>
                 </td>
               </tr>
             ))}
           </tbody>
-        </table>
-      </div>
+        </Table>
+      </Container>
     </>
   );
 }
