@@ -69,8 +69,8 @@ function ComNavbar() {
                 <NavDropdown.Item href="/commisary/procategory">
                   Product Category
                 </NavDropdown.Item>
-                <NavDropdown.Item href="/stores/viewallstoreguide">
-                  View Order Guides
+                <NavDropdown.Item href="/commisary/products">
+                  Products
                 </NavDropdown.Item>
               </NavDropdown>
               <NavDropdown title="Orders" id="offcanvasNavbarDropdown-expand">

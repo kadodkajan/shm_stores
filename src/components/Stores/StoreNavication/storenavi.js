@@ -63,21 +63,20 @@ function StoreNavbar() {
           <Offcanvas.Body className="custom-offcanvas-body ">
             <Nav className="justify-content-flex-start pe-1 " id="cstom-nav">
               <Nav.Link href="/stores">Home</Nav.Link>
+              <NavDropdown title="Order Guides" id="offcanvasNavbarDropdown-expand">
+                <NavDropdown.Item href="/stores/createstoreguide">
+                  Create Order Guide
+                </NavDropdown.Item>
+                <NavDropdown.Item href="/stores/viewallstoreguide">
+                  View Order Guides
+                </NavDropdown.Item>
+              </NavDropdown>
               <NavDropdown title="Orders" id="offcanvasNavbarDropdown-expand">
                 <NavDropdown.Item href="/stores/createorder">
                   Create Order
                 </NavDropdown.Item>
                 <NavDropdown.Item href="/stores/vieworders">
                   View Orders
-                </NavDropdown.Item>
-              </NavDropdown>
-              <Nav.Link href="/stores/viewallguide">Order Guides</Nav.Link>
-              <NavDropdown title="Store Guides" id="offcanvasNavbarDropdown-expand">
-                <NavDropdown.Item href="/stores/createstoreguide">
-                  Create Store Guide
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/stores/viewallstoreguide">
-                  View Store Guides
                 </NavDropdown.Item>
               </NavDropdown>
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
