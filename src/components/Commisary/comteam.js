@@ -114,8 +114,8 @@ function ComTeam() {
           </Button>
         </Form>
 
-        <h2 className="mt-4">Teams</h2>
         <br />
+        <h5 >Team List</h5>       
         <Table hover style={{ width: "350px" }}>
           <thead>
             <tr>
@@ -140,6 +140,7 @@ function ComTeam() {
             ))}
           </tbody>
         </Table>
+        
       </Container>
     </>
   );

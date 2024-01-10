@@ -18,6 +18,7 @@ import Commisary from './components/Commisary';
 import ComTeam from './components/Commisary/comteam';
 import ProductCategory from './components/Commisary/productcategory';
 import Products from './components/Commisary/products';
+import OrderGuide from './components/Commisary/orderguide';
 function App() {
   return (
     <Router>
@@ -27,6 +28,7 @@ function App() {
           <Route path="/commisary/comteam" element={<ComTeam />} />
           <Route path="/commisary/procategory" element={<ProductCategory />} />
           <Route path="/commisary/products" element={<Products />} />
+          <Route path="/commisary/orderguide" element={<OrderGuide />} />
 
           //Stores
           <Route path="/stores" element={<Store />} />

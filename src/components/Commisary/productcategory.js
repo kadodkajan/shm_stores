@@ -153,18 +153,18 @@ function ProductCategory() {
                   ))}
                 </Form.Control>
               </Form.Group>
-
+<br/>
               <Button type="submit" variant="success">
                 Add Product Category
               </Button>
             </Form>
           </Col>
         </Row>
-
+       
         <Table hover style={{ width: "100%", marginTop: "20px" }}>
           <thead>
             <tr>
-              <th>Product Category</th>
+              <th>Name</th>
               <th>Production</th>
               <th>Packaging</th>
               <th>Remove</th>
@@ -188,6 +188,8 @@ function ProductCategory() {
             ))}
           </tbody>
         </Table>
+
+       
       </Container>
     </>
   );

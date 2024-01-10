@@ -2,17 +2,34 @@
 
 import React, { useState, useEffect } from "react";
 import ComNavbar from "./CommisaryNavication/comnavi";
-import { Container, Form, Button, Table, Row, Col } from "react-bootstrap";
+import {
+  Container,
+  Form,
+  Button,
+  Pagination,  Row,
+  Col,
+  Dropdown,
+} from "react-bootstrap";
 
 function Products() {
   const [procategory, setProcategory] = useState([]);
+  const [products, setProducts] = useState([]);
 
   const [product, setProduct] = useState({
     ProductId: "",
     productName: "",
     procategory: "",
   });
+  const productsPerPage = 9; // Set the number of products to display per page
+  const [currentPage, setCurrentPage] = useState(1);
 
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
+
+  const paginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
   const fetchproductcate = async () => {
     try {
       const procategorysResponse = await fetch(
@@ -28,11 +45,30 @@ function Products() {
       console.error("An error occurred", error);
     }
   };
+  const fetchAllProducts = async () => {
+    try {
+      const productsResponse = await fetch(
+        "https://apiforshm-production.up.railway.app/getAllProduct"
+      );
+      if (productsResponse.ok) {
+        const productsData = await productsResponse.json();
+        setProducts(productsData.product || []);
+        console.log(products);
+      } else {
+        console.error("Failed to fetch products");
+      }
+    } catch (error) {
+      console.error("An error occurred", error);
+    }
+  };
   useEffect(() => {
     fetchproductcate();
+    fetchAllProducts();
   }, []);
-  const handleInputChange = async (e) => {const { name, value } = e.target;
-  setProduct((prev) => ({ ...prev, [name]: value }));};
+  const handleInputChange = async (e) => {
+    const { name, value } = e.target;
+    setProduct((prev) => ({ ...prev, [name]: value }));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
 
@@ -56,8 +92,29 @@ function Products() {
           productName: "",
           procategory: "",
         });
+        fetchAllProducts();
       } else {
         console.error("Failed to add product");
+      }
+    } catch (error) {
+      console.error("An error occurred", error);
+    }
+  };
+  const handleDelete = async (productId) => {
+    try {
+      const apiUrl = `https://apiforshm-production.up.railway.app/deleteProduct/${productId}`;
+
+      const response = await fetch(apiUrl, {
+        method: "DELETE",
+      });
+
+      if (response.ok) {
+        console.log("Product deleted successfully");
+
+        // Refresh the product list after deleting a product
+        fetchAllProducts();
+      } else {
+        console.error("Failed to delete product");
       }
     } catch (error) {
       console.error("An error occurred", error);
@@ -67,6 +124,8 @@ function Products() {
     <>
       <ComNavbar />
       <Container className="mt-4">
+      <div className="card mt-3">
+      <div className="card-body">
         <Row>
           <Col md={6}>
             <Form onSubmit={handleSubmit}>
@@ -90,8 +149,7 @@ function Products() {
                   required
                 />
               </Form.Group>
-              <Form.Group
-                controlId=" procategory"  >
+              <Form.Group controlId=" procategory">
                 <Form.Label>Product Category:</Form.Label>
                 <Form.Control
                   as="select"
@@ -108,13 +166,76 @@ function Products() {
                   ))}
                 </Form.Control>
               </Form.Group>
-<br/>
+              <br />
               <Button type="submit" variant="success">
-                Add Product 
+                Add Product
               </Button>
             </Form>
           </Col>
         </Row>
+        </div>
+      </div>
+        <div className="card mt-3">
+      <div className="card-body">
+        <h5 className="card-title">Product List</h5>
+
+        <Row>
+          {currentProducts.map((product) => (
+            <Col key={product.ProductId} md={4}className="mb-3">
+              <div className="card">
+                <div className="card-body">
+                  <h5 className="card-title">{product.productName}</h5>
+                  <p className="card-text">ID: {product.ProductId}</p>
+
+                  <div className="d-flex justify-content-between align-items-end">
+                    <Dropdown>
+                      <Dropdown.Toggle
+                        variant="secondary"
+                        id={`dropdown-${product.ProductId}`}
+                      >
+                        Category
+                      </Dropdown.Toggle>
+                      <Dropdown.Menu>
+                        <Dropdown.Item>
+                          Category: {product.procategory.procategoryName}
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                          Production Team: {product.procategory.productionTeam}
+                        </Dropdown.Item>
+                        <Dropdown.Item>
+                          Packing Team: {product.procategory.packingTeam}
+                        </Dropdown.Item>
+                        </Dropdown.Menu>
+
+                      </Dropdown>
+
+                    <Button
+                      variant="danger"
+                      onClick={() => handleDelete(product._id)}
+                    >
+                      Delete
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Col>
+          ))}
+        </Row>
+
+        <Pagination>
+          {Array.from({ length: Math.ceil(products.length / productsPerPage) }, (_, index) => (
+            <Pagination.Item
+              key={index + 1}
+              active={index + 1 === currentPage}
+              onClick={() => paginate(index + 1)}
+            >
+              {index + 1}
+            </Pagination.Item>
+          ))}
+        </Pagination>
+      </div>
+      </div>
+
       </Container>
     </>
   );
