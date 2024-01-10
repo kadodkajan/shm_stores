@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import ComNavbar from "./CommisaryNavication/comnavi";
-import { Container, Form, Button, Row, Col, Modal } from "react-bootstrap";
-
+import { Container, Form, Button, Row, Col, Table } from "react-bootstrap";
+import AvailableDaysModal from "./availableDaysModal";
+import ProductSelectionModal from "./productselectmodal";
 function OrderGuide() {
   const [guide, setGuide] = useState({
     guideName: "",
@@ -11,7 +12,28 @@ function OrderGuide() {
   });
 
   const [showModal, setShowModal] = useState(false);
+  const [showProductModal, setShowProductModal] = useState(false);
+  const [selectedProducts, setSelectedProducts] = useState([]);
 
+  const handleProductSelection = (selectedProducts) => {
+    setGuide((prevGuide) => {
+      // Create a Set of existing product IDs
+      const existingProductIds = new Set(prevGuide.products.map(product => product._id));
+  
+      // Filter selected products to include only those with unique IDs
+      const uniqueSelectedProducts = selectedProducts.filter(product => !existingProductIds.has(product._id));
+  
+      return {
+        ...prevGuide,
+        products: [...prevGuide.products, ...uniqueSelectedProducts],
+      };
+    });
+  };
+  
+  
+  const handleOpenProductModal = () => {
+    setShowProductModal(true);
+  };
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setGuide((prevGuide) => ({ ...prevGuide, [name]: value }));
@@ -46,15 +68,28 @@ function OrderGuide() {
   const handleSubmit = (e) => {
     e.preventDefault();
     // Add your logic to handle the form submission
-    console.log("Form Submitted:", guide);
+
+    console.log(guide);
+
+    // Add your logic to handle the form submission
     setGuide({
       guideName: "",
       products: [],
       availableDays: [],
       cutoffTime: { hours: 0, minutes: 0, period: "AM" },
     });
+    // window.location.reload();
   };
-
+  const handleRemoveProduct = (index) => {
+    setGuide((prevGuide) => {
+      const updatedProducts = [...prevGuide.products];
+      updatedProducts.splice(index, 1);
+      return {
+        ...prevGuide,
+        products: updatedProducts,
+      };
+    });
+  };
   return (
     <>
       <ComNavbar />
@@ -84,7 +119,6 @@ function OrderGuide() {
                     </p>
                   </Form.Group>
                   <br />
-
                   <Form.Group>
                     <p>Cutoff Time:</p>
                     <Row>
@@ -126,8 +160,40 @@ function OrderGuide() {
                       </Col>
                     </Row>
                   </Form.Group>
-
                   <br />
+                  <Button variant="primary" onClick={handleOpenProductModal}>
+                    Add Products
+                  </Button>
+                  <br/>
+                  <br/>
+
+                  <Form.Group>
+                    <p>Selected Products:</p>
+                    <Table striped bordered hover>
+                      <thead>
+                        <tr>
+                          <th>Name</th>
+                          <th>Remove</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {guide.products.map((product, index) => (
+                          <tr key={index}>
+                            <td>{product.productName}</td>
+                            <td>
+                              <Button
+                                variant="danger"
+                                onClick={() => handleRemoveProduct(index)}
+                              >
+                                Remove
+                              </Button>
+                            </td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </Table>
+                  </Form.Group>
+                 
                   <Button type="submit" variant="success">
                     Create Guide{" "}
                   </Button>
@@ -139,43 +205,17 @@ function OrderGuide() {
       </Container>
 
       {/* Modal for Available Days */}
-      <Modal show={showModal} onHide={handleModalClose}>
-        <Modal.Header closeButton>
-          <Modal.Title>Select Available Days</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <div>
-            {[
-              "Monday",
-              "Tuesday",
-              "Wednesday",
-              "Thursday",
-              "Friday",
-              "Saturday",
-              "Sunday",
-            ].map((day) => (
-              <Form.Check
-                key={day}
-                type="checkbox"
-                label={day}
-                name="availableDays"
-                id={`day-${day} `}
-                value={day}
-                checked={guide.availableDays.includes(day)}
-                onChange={handleAvailableDaysChange}
-              />
-            ))}
-          </div>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button variant="secondary" onClick={handleModalClose}>
-            Close
-          </Button>
-          <Button variant="primary" onClick={handleModalClose}>
-            Save Changes
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <AvailableDaysModal
+        showModal={showModal}
+        handleClose={handleModalClose}
+        handleSaveChanges={handleAvailableDaysChange} // Assuming this is the correct handler
+        guide={guide}
+      />
+      <ProductSelectionModal
+        showModal={showProductModal}
+        handleClose={() => setShowProductModal(false)}
+        handleProductSelection={handleProductSelection}
+      />
     </>
   );
 }
