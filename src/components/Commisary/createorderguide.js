@@ -3,7 +3,8 @@ import ComNavbar from "./CommisaryNavication/comnavi";
 import { Container, Form, Button, Row, Col, Table } from "react-bootstrap";
 import AvailableDaysModal from "./availableDaysModal";
 import ProductSelectionModal from "./productselectmodal";
-function OrderGuide() {
+import DraggableTableRow from "./productTable";
+function CreateOrderGuide() {
   const [guide, setGuide] = useState({
     guideName: "",
     products: [],
@@ -18,19 +19,22 @@ function OrderGuide() {
   const handleProductSelection = (selectedProducts) => {
     setGuide((prevGuide) => {
       // Create a Set of existing product IDs
-      const existingProductIds = new Set(prevGuide.products.map(product => product._id));
-  
+      const existingProductIds = new Set(
+        prevGuide.products.map((product) => product._id)
+      );
+
       // Filter selected products to include only those with unique IDs
-      const uniqueSelectedProducts = selectedProducts.filter(product => !existingProductIds.has(product._id));
-  
+      const uniqueSelectedProducts = selectedProducts.filter(
+        (product) => !existingProductIds.has(product._id)
+      );
+
       return {
         ...prevGuide,
         products: [...prevGuide.products, ...uniqueSelectedProducts],
       };
     });
   };
-  
-  
+
   const handleOpenProductModal = () => {
     setShowProductModal(true);
   };
@@ -65,20 +69,39 @@ function OrderGuide() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Add your logic to handle the form submission
 
-    console.log(guide);
+    try {
+      // Add your logic to handle the form submission
+      const response = await fetch("https://apiforshm-production.up.railway.app/addguide", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(guide),
+      });
 
-    // Add your logic to handle the form submission
-    setGuide({
-      guideName: "",
-      products: [],
-      availableDays: [],
-      cutoffTime: { hours: 0, minutes: 0, period: "AM" },
-    });
-    // window.location.reload();
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+
+      // Add your logic to handle the form submission response if needed
+
+      // Reset the guide state after successful submission
+      setGuide({
+        guideName: "",
+        products: [],
+        availableDays: [],
+        cutoffTime: { hours: 0, minutes: 0, period: "AM" },
+      });
+    } catch (error) {
+      console.error("Error submitting guide:", error);
+      // Handle the error, show a message, or perform other actions as needed
+    }
   };
   const handleRemoveProduct = (index) => {
     setGuide((prevGuide) => {
@@ -90,17 +113,29 @@ function OrderGuide() {
       };
     });
   };
+  const moveRow = (dragIndex, hoverIndex) => {
+    const draggedRow = guide.products[dragIndex];
+    const updatedProducts = [...guide.products];
+    updatedProducts.splice(dragIndex, 1);
+    updatedProducts.splice(hoverIndex, 0, draggedRow);
+
+    // Update the state with the new order of rows
+    setGuide({ ...guide, products: updatedProducts });
+  };
+
   return (
     <>
       <ComNavbar />
       <Container className="mt-4">
         <div className="card mt-3">
           <div className="card-body">
-            <Row>
-              <Col md={6}>
-                <Form onSubmit={handleSubmit}>
+            <Form onSubmit={handleSubmit}>
+              <Row>
+                <Col md={4}>
+                  <br />
+
                   <Form.Group controlId="guideName">
-                    <Form.Label>Guide Name:</Form.Label>
+                    <p>Guide Name:</p>
                     <Form.Control
                       type="text"
                       name="guideName"
@@ -109,17 +144,27 @@ function OrderGuide() {
                       required
                     />
                   </Form.Group>
-                  <br />
+                </Col>
+
+                <br />
+                <Col md={4}>
                   <Form.Group controlId="availableDays">
-                    <p>
-                      Available Days :
-                      <Button variant="primary" onClick={handleModalShow}>
-                        Select Days
-                      </Button>
-                    </p>
+                    <br />
+
+                    <p> Available Days :</p>
+                    <Button variant="primary" onClick={handleModalShow}>
+                      Select Days
+                    </Button>
                   </Form.Group>
-                  <br />
+                </Col>
+
+                <br />
+                <br />
+
+                <Col md={4}>
                   <Form.Group>
+                    <br />
+
                     <p>Cutoff Time:</p>
                     <Row>
                       <Col>
@@ -160,46 +205,56 @@ function OrderGuide() {
                       </Col>
                     </Row>
                   </Form.Group>
-                  <br />
-                  <Button variant="primary" onClick={handleOpenProductModal}>
-                    Add Products
-                  </Button>
-                  <br/>
-                  <br/>
-
+                </Col>
+              </Row>
+              <br />
+              <Button variant="secondary" onClick={handleOpenProductModal}>
+                Add Products
+              </Button>
+              <br />
+              <br />
+              <Row>
+                <Col md={6}>
                   <Form.Group>
-                    <p>Selected Products:</p>
-                    <Table striped bordered hover>
-                      <thead>
-                        <tr>
-                          <th>Name</th>
-                          <th>Remove</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {guide.products.map((product, index) => (
-                          <tr key={index}>
-                            <td>{product.productName}</td>
-                            <td>
-                              <Button
-                                variant="danger"
-                                onClick={() => handleRemoveProduct(index)}
-                              >
-                                Remove
-                              </Button>
-                            </td>
-                          </tr>
-                        ))}
-                      </tbody>
-                    </Table>
+                    <div className="card mt-3 ">
+                      <div className="card-body">
+                        <h5>Added Products</h5>
+                        <Table striped hover>
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Remove</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {guide.products.map((product, index) => (
+                              <DraggableTableRow
+                                key={index}
+                                index={index}
+                                product={product}
+                                handleRemoveProduct={handleRemoveProduct}
+                                moveRow={moveRow}
+                              />
+                            ))}
+                          </tbody>
+                        </Table>
+                      </div>
+                    </div>
                   </Form.Group>
-                 
-                  <Button type="submit" variant="success">
-                    Create Guide{" "}
-                  </Button>
-                </Form>
-              </Col>
-            </Row>
+                </Col>
+              </Row>
+
+              <br />
+              <div className="container">
+                <div className="row">
+                  <div className="col-md-12 d-flex justify-content-end">
+                    <Button type="submit" variant="success">
+                      Create Guide
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            </Form>
           </div>
         </div>
       </Container>
@@ -220,4 +275,4 @@ function OrderGuide() {
   );
 }
 
-export default OrderGuide;
+export default CreateOrderGuide;

@@ -106,12 +106,11 @@ function ProductSelectionModal({ showModal, handleClose, handleProductSelection 
         </Table>
       </Modal.Body>
       <Modal.Footer>
-        <Button variant="secondary" onClick={handleClose}>
+        <Button variant="danger" onClick={handleClose}>
           Close
         </Button>
-        <Button variant="primary" onClick={handleSaveAndClose} disabled={!selectedCategory}>
-          Save Changes
-        </Button>
+        <Button variant="success" onClick={handleSaveAndClose} disabled={!selectedCategory}>
+Add        </Button>
       </Modal.Footer>
     </Modal>
   );

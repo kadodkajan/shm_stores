@@ -126,9 +126,10 @@ function Products() {
       <Container className="mt-4">
       <div className="card mt-3">
       <div className="card-body">
-        <Row>
-          <Col md={6}>
+        
             <Form onSubmit={handleSubmit}>
+              <Row>
+                <Col md={6}>
               <Form.Group controlId="productName">
                 <Form.Label>Product Name:</Form.Label>
                 <Form.Control
@@ -139,6 +140,8 @@ function Products() {
                   required
                 />
               </Form.Group>
+              </Col>
+              <Col md={3}>
               <Form.Group controlId="ProductId">
                 <Form.Label>Product ID:</Form.Label>
                 <Form.Control
@@ -149,6 +152,8 @@ function Products() {
                   required
                 />
               </Form.Group>
+              </Col>
+              <Col md={3}>
               <Form.Group controlId=" procategory">
                 <Form.Label>Product Category:</Form.Label>
                 <Form.Control
@@ -166,13 +171,19 @@ function Products() {
                   ))}
                 </Form.Control>
               </Form.Group>
+                </Col>
+              </Row>
+              <Row className="d-flex justify-content-end">
+               
+              <Col md={3} >
               <br />
               <Button type="submit" variant="success">
                 Add Product
               </Button>
+              </Col>
+              </Row>
             </Form>
-          </Col>
-        </Row>
+         
         </div>
       </div>
         <div className="card mt-3">
