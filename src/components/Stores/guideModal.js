@@ -11,15 +11,18 @@ const GuideModal = ({ show, handleClose, selectedGuide }) => {
 
   // Assume that getUserDataFromCookie is a function to retrieve user data from cookies
   const getUserDataFromCookie = () => {
-    const userCookie = Cookies.get("user");
-
-    if (userCookie) {
-      const userDataFromCookie = JSON.parse(userCookie);
-      setUserData(userDataFromCookie);
-    } else {
-      // Cookie not found, handle accordingly
-      navigate("/"); // Redirect to login page or handle as needed
-    }
+    return new Promise((resolve, reject) => {
+      const userCookie = Cookies.get("user");
+  
+      if (userCookie) {
+        const userDataFromCookie = JSON.parse(userCookie);
+        setUserData(userDataFromCookie);
+        resolve(userDataFromCookie);
+      } else {
+        // Cookie not found, handle accordingly
+        reject("User data not found in cookie");
+      }
+    });
   };
 
   const handleProductParChange = (productId, value) => {
@@ -30,25 +33,23 @@ const GuideModal = ({ show, handleClose, selectedGuide }) => {
   };
 
   const handleCreateStoreGuide = async () => {
-    // Handle the creation of the new store guide here
-    // Construct the new guide object with productPar and user_location included
-    getUserDataFromCookie();
-    const user_location=userData.user_location
-    const newGuide = {
-      ...selectedGuide,
-      products: selectedGuide.products.map((product) => ({
-        ...product,
-        productPar: productParValues[product._id] || 0, // Set default value to 0 if not entered
-      })),
-      user_location: user_location,
-    };
-  
-    // Log the new guide to the console
-  
-    // Reset the input values
-    setProductParValues({});
-
     try {
+      // Wait for getUserDataFromCookie to complete before proceeding
+      const userData = await getUserDataFromCookie();
+      const user_location = userData.user_location;
+  
+      const newGuide = {
+        ...selectedGuide,
+        products: selectedGuide.products.map((product) => ({
+          ...product,
+          productPar: productParValues[product._id] || 0,
+        })),
+        user_location: user_location,
+      };
+  
+      // Reset the input values
+      setProductParValues({});
+  
       // Send the new guide to the server
       const response = await fetch("https://apiforshm-production.up.railway.app/addStoreGuide", {
         method: "POST",
@@ -60,16 +61,17 @@ const GuideModal = ({ show, handleClose, selectedGuide }) => {
   
       if (response.ok) {
         const data = await response.json();
-       alert("Store guide added successfully");
+        alert("Store guide added successfully");
       } else {
         console.error("Error adding store guide:", response.statusText);
       }
     } catch (error) {
       console.error("Error adding store guide:", error);
     }
-   handleClose();
-
+  
+    handleClose();
   };
+  
   
   return (
     <Modal show={show} onHide={handleClose} size="lg">
@@ -135,6 +137,8 @@ const GuideModal = ({ show, handleClose, selectedGuide }) => {
                           <Form.Control
                             type="number"
                             placeholder="Enter product par"
+                            id={`productPar_${product._id}`} // Add a unique id attribute
+                            name={`productPar_${product._id}`} // Add a unique name attribute
                             value={productParValues[product._id] || ""}
                             onChange={(e) =>
                               handleProductParChange(product._id, e.target.value)
