@@ -11,7 +11,6 @@ import CreateOrder from './components/Stores/createOrder';
 import UpdateOrder from './components/Stores/updateorder';
 import CreateStoreGuide from './components/Stores/createStoreGuide';
 import ViewAllStoreGuide from './components/Stores/ViewAllStoreGuide';
-import ViewOneGuide from './components/Stores/viewOneGuide';
 import ViewOneOrder from './components/Stores/viewOneOrder';
 import ViewOrders from './components/Stores/viewOrders';
 //Commisary
@@ -41,7 +40,6 @@ function App() {
           <Route path="/stores/vieworders" element={<ViewOrders />} />
           <Route path="/stores/updateorder" element={<UpdateOrder />} />
           <Route path="/stores/viewoneorder" element={<ViewOneOrder />} />
-          <Route path="/stores/viewoneguide" element={<ViewOneGuide />} />
           
           <Route path="/stores/createstoreguide" element={<CreateStoreGuide />} />
           <Route path="/stores/viewallstoreguide" element={<ViewAllStoreGuide />} />
