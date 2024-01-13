@@ -20,6 +20,7 @@ import ProductCategory from './components/Commisary/productcategory';
 import Products from './components/Commisary/products';
 import CreateOrderGuide from './components/Commisary/createorderguide';
 import ViewGuide from './components/Commisary/viewguides';
+import AllOrders from './components/Commisary/allorders';
 function App() {
   return (
     <Router>
@@ -33,6 +34,7 @@ function App() {
           <Route path="/commisary/products" element={<Products />} />
           <Route path="/commisary/createorderguide" element={<CreateOrderGuide />} />
           <Route path="/commisary/viewguides" element={<ViewGuide />} />
+          <Route path="/commisary/viewallorders" element={<AllOrders />} />
 
           //Stores
           <Route path="/stores" element={<Store />} />
