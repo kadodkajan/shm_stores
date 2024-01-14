@@ -129,7 +129,7 @@ const CreateOrderModal = ({
       //   console.log(newObject); // Reset the input values
       setProductQuantity({});
 
-      const response = await fetch("http://localhost:8080/createOrder", {
+      const response = await fetch("https://apiforshm-production.up.railway.app/createOrder", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
