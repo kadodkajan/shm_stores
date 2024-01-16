@@ -28,9 +28,8 @@ const ViewModal = ({ show, handleClose, selectedGuide }) => {
                 <Card.Header>Cut off Time</Card.Header>
                 <Card.Body>
                   <Card.Text>
-                    {selectedGuide.cutoffTime.hours}:
-                    {selectedGuide.cutoffTime.minutes}{' '}
-                    {selectedGuide.cutoffTime.period}
+                    {selectedGuide.cutoffTime} hr
+                    
                   </Card.Text>
                 </Card.Body>
               </Card>

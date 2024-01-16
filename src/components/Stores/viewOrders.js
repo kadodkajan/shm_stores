@@ -59,13 +59,15 @@ function ViewOrders() {
     setSelectedOrder(order);
     setShowModal(true);
   };
-
+  const handleUpdateClick = (order) => {
+    alert("Feature Not Avilable now")
+  };
   const handleCloseModal = () => {
     setShowModal(false);
   };
   const handleDelete = async (order) => {
     try {
-      const response = await fetch(`http://localhost:8080/deleteOrderById/${order._id}`, {
+      const response = await fetch(`https://apiforshm-production.up.railway.app/deleteOrderById/${order._id}`, {
         method: 'DELETE',
       });
 
@@ -83,7 +85,6 @@ function ViewOrders() {
     <>
       <StoreNavbar />
       <div className="container mt-4">
-        <h2 className="mb-4">Hello ViewOrders</h2>
         <DatePicker
           selected={selectedDate}
           onChange={(date) => setSelectedDate(date)}
@@ -95,17 +96,16 @@ function ViewOrders() {
             <div key={order._id} className="col-md-4 mb-4">
               <div className="card">
                 <div className="card-body">
-                  <h5 className="card-title">Order ID: {order._id}</h5>
-                  <p className="card-text">Guide Name: {order.guideName}</p>
+                  <p className="card-text">Order Name: {order.guideName}</p>
                   <p className="card-text">
-                    Order Date: {new Date(order.orderdate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
+                    Order For: {new Date(order.orderdate).toLocaleDateString('en-GB', { day: 'numeric', month: 'long', year: 'numeric' })}
                   </p>
-                  <p className="card-text">Order Owner: {order.orderOwner}</p>
+                  <p className="card-text">Order By: {order.orderOwner}</p>
                   <div className="btn-group">
                     <Button variant="info" onClick={() => handleViewClick(order)}>
                       View
                     </Button>
-                    <button className="btn btn-warning">Update</button>
+                    <button className="btn btn-warning" onClick={() => handleUpdateClick(order)}>Update</button>
                     <Button variant="danger" onClick={() => handleDelete(order)}>
           Delete
         </Button>                  </div>

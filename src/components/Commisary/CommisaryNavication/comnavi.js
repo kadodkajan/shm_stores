@@ -81,14 +81,9 @@ function ComNavbar() {
                   View Guides
                 </NavDropdown.Item>
               </NavDropdown>
-              <NavDropdown title="Orders" id="offcanvasNavbarDropdown-expand">
-                <NavDropdown.Item href="/commisary/viewallorders">
-                View Orders
-                </NavDropdown.Item>
-                <NavDropdown.Item href="/stores/vieworders">
-                  View Orders
-                </NavDropdown.Item>
-              </NavDropdown>
+              <Nav.Link href="/commisary/viewallorders">Orders</Nav.Link>
+
+             
               <Nav.Link onClick={handleLogout}>Logout</Nav.Link>
 
 

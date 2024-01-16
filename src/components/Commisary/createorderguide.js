@@ -1,29 +1,27 @@
 import React, { useState } from "react";
-import ComNavbar from "./CommisaryNavication/comnavi";
 import { Container, Form, Button, Row, Col, Table } from "react-bootstrap";
+import ComNavbar from "./CommisaryNavication/comnavi";
 import AvailableDaysModal from "./availableDaysModal";
 import ProductSelectionModal from "./productselectmodal";
 import DraggableTableRow from "./productTable";
+
 function CreateOrderGuide() {
   const [guide, setGuide] = useState({
     guideName: "",
     products: [],
     availableDays: [],
-    cutoffTime: { hours: 0, minutes: 0, period: "AM" },
+    cutoffTime: 0,
   });
 
   const [showModal, setShowModal] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
-  const [selectedProducts, setSelectedProducts] = useState([]);
 
   const handleProductSelection = (selectedProducts) => {
     setGuide((prevGuide) => {
-      // Create a Set of existing product IDs
       const existingProductIds = new Set(
         prevGuide.products.map((product) => product._id)
       );
 
-      // Filter selected products to include only those with unique IDs
       const uniqueSelectedProducts = selectedProducts.filter(
         (product) => !existingProductIds.has(product._id)
       );
@@ -38,6 +36,7 @@ function CreateOrderGuide() {
   const handleOpenProductModal = () => {
     setShowProductModal(true);
   };
+
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setGuide((prevGuide) => ({ ...prevGuide, [name]: value }));
@@ -63,17 +62,14 @@ function CreateOrderGuide() {
 
   const handleTimeChange = (e) => {
     const { name, value } = e.target;
-    setGuide((prevGuide) => ({
-      ...prevGuide,
-      cutoffTime: { ...prevGuide.cutoffTime, [name]: value },
-    }));
+    setGuide((prevGuide) => ({ ...prevGuide, cutoffTime: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-console.log(guide)
+    console.log(guide);
+
     try {
-      // Add your logic to handle the form submission
       const response = await fetch("https://apiforshm-production.up.railway.app/addguide", {
         method: "POST",
         headers: {
@@ -89,20 +85,17 @@ console.log(guide)
       const responseData = await response.json();
       console.log(responseData);
 
-      // Add your logic to handle the form submission response if needed
-
-      // Reset the guide state after successful submission
       setGuide({
         guideName: "",
         products: [],
         availableDays: [],
-        cutoffTime: { hours: 0, minutes: 0, period: "AM" },
+        cutoffTime: 0,
       });
     } catch (error) {
       console.error("Error submitting guide:", error);
-      // Handle the error, show a message, or perform other actions as needed
     }
   };
+
   const handleRemoveProduct = (index) => {
     setGuide((prevGuide) => {
       const updatedProducts = [...prevGuide.products];
@@ -113,15 +106,16 @@ console.log(guide)
       };
     });
   };
+
   const moveRow = (dragIndex, hoverIndex) => {
     const draggedRow = guide.products[dragIndex];
     const updatedProducts = [...guide.products];
     updatedProducts.splice(dragIndex, 1);
     updatedProducts.splice(hoverIndex, 0, draggedRow);
 
-    // Update the state with the new order of rows
     setGuide({ ...guide, products: updatedProducts });
   };
+
 
   return (
     <>
@@ -174,35 +168,11 @@ console.log(guide)
                           name="hours"
                           value={guide.cutoffTime.hours}
                           onChange={handleTimeChange}
-                          min={1}
-                          max={12}
+                       
                           placeholder="Hours"
                         />
                       </Col>
-                      <Col>
-                        <Form.Control
-                          id="minutes"
-                          type="number"
-                          name="minutes"
-                          value={guide.cutoffTime.minutes}
-                          onChange={handleTimeChange}
-                          min={0}
-                          max={59}
-                          placeholder="Minutes"
-                        />
-                      </Col>
-                      <Col>
-                        <Form.Control
-                          id="format"
-                          as="select"
-                          name="period"
-                          value={guide.cutoffTime.period}
-                          onChange={handleTimeChange}
-                        >
-                          <option value="AM">AM</option>
-                          <option value="PM">PM</option>
-                        </Form.Control>
-                      </Col>
+                      
                     </Row>
                   </Form.Group>
                 </Col>

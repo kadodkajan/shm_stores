@@ -7,7 +7,7 @@ const ViewOrderModal = ({ show, handleClose, order }) => {
   useEffect(() => {
     const fetchOrderDetails = async () => {
       try {
-        const response = await fetch(`http://localhost:8080/getOrderById/${order._id}`);
+        const response = await fetch(`https://apiforshm-production.up.railway.app/getOrderById/${order._id}`);
         const data = await response.json();
         if (data.status === 'success') {
           setOrder(data.order);

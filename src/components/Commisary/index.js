@@ -11,7 +11,6 @@ function Commisary(){
 
     return(<>
     <ComNavbar/>
-    <p>Hello Commisary</p>
     </>)
 }
 
