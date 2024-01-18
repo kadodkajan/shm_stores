@@ -40,7 +40,7 @@ function AllOrders() {
     // Fetch data from the API using selected guide and date
     try {
       const response = await fetch(
-        `http://localhost:8080/getOrdersForCommisary`,
+        `https://apiforshm-production.up.railway.app/getOrdersForCommisary`,
         {
           method: "POST",
           headers: {
