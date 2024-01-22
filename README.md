@@ -1,70 +1,76 @@
-# Getting Started with Create React App
+# Supermarket Order Processing App [Live App](https://shm-stores.vercel.app/)
+Welcome to the Supermarket Order Processing App! This application is designed to streamline the ordering process for a supermarket chain, allowing stores to efficiently order products, especially prepared foods, from the commissary kitchen.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Table of Contents
+- [Features](#features)
+- [Installation](#installation)
+- [Usage](#usage)
+- [Components](#components)
+    - [Stores](#stores)
+    - [Commisary](#commisary)
+- [Technologies](#technologies)
+- [Contributing](#contributing)
+- [License](#license)
 
-## Available Scripts
+## Features
+- Create, update, and view orders for individual stores.
+- Manage store guides for efficient order processing.
+- Access a centralized commissary system to oversee teams, product categories, and orders.
+- Create and view guides for commissary orders.
 
-In the project directory, you can run:
+## Installation
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/supermarket-order-app.git
+   cd supermarket-order-app
 
-### `npm start`
+2. Set up your MongoDB database and update the connection string in the server configuration.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. Run the application:
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+    ```bash
+    cd client
+    npm start
+    cd ../server
+    npm start
+    ```
 
-### `npm test`
+   Open your browser and navigate to [http://localhost:3000](http://localhost:3000) to use the application.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## Usage
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Navigate to different components to perform various actions, such as creating or updating orders, managing guides, and viewing orders.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+## Components
 
-### `npm run eject`
+### Stores
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- **Store:** Main component for store-related actions.
+- **CreateStoreGuide:** Create a guide for store-related processes.
+- **ViewAllStoreGuide:** View all store guides.
+- **CreateOrder:** Help create orders for stores using premade order guide.
+- **UpdateOrder:** Update an existing store order.
+- **ViewOrders:** View all orders for a store.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+### Commisary
+- **Commisary:** Main component for commissary-related actions.
+- **ComTeam:** Manage teams within the commissary.
+- **ProductCategory:** Manage product categories for commissary products.
+- **Products:** Manage individual products available in the commissary.
+- **CreateOrderGuide:** Create a guide for commissary order processing.
+- **ViewGuide:** View guides for commissary orders.
+- **AllOrders:** View all commissary orders.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+## Technologies
+- React.js for the frontend.
+- Node.js for the backend.
+- MongoDB for the database.
 
-## Learn More
+## Contributing
+Contributions are welcome! Please fork the repository and create a pull request with your proposed changes.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## License
+This project is licensed under the [MIT License](LICENSE).
